@@ -67,6 +67,21 @@
 </head>
 <body class="bg-gradient-to-br from-emerald-50 via-teal-50 to-green-100 dark:from-slate-950 dark:via-emerald-950/40 dark:to-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
 
+    <div id="loadingScreen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-700">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="w-20 h-20 rounded-full border-4 border-emerald-500/20 border-t-emerald-500 animate-spin"></div>
+            <div class="absolute p-3 bg-gradient-to-tr from-emerald-600 to-teal-400 rounded-full shadow-lg shadow-emerald-500/40">
+                <i class="fa-solid fa-leaf text-2xl text-white"></i>
+            </div>
+        </div>
+        <h2 class="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 bg-clip-text text-transparent mb-2">
+            GreenEarth
+        </h2>
+        <p class="text-xs font-mono text-emerald-400/80 animate-pulse tracking-wide">
+            Memuat Ekosistem Hutan Borneo...
+        </p>
+    </div>
+    
     <header class="fixed top-4 left-4 right-4 z-50 transition-all duration-300" id="mainHeader">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-nav rounded-full">
             <div class="flex items-center justify-between h-16 sm:h-20">
@@ -307,6 +322,15 @@
             alert("Terima kasih! Pesan Anda berhasil dikirim ke tim Green Earth.");
             e.target.reset();
         }
+            window.addEventListener('load', () => {
+            const loader = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loader.classList.add('opacity-0');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 700);
+            }, 800);
+        });
     </script>
 </body>
 </html>
