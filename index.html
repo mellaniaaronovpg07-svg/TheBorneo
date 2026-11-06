@@ -472,7 +472,15 @@
             background: var(--accent-light);
             color: var(--accent) !important;
         }
-
+        .nav-dropdown-menu::before {
+         content: "";
+        position: absolute;
+        top: -16px;
+         left: 0;
+        right: 0;
+         height: 16px;
+        }
+        
         .hero-earth {
             position: relative;
             width: 100%;
@@ -888,7 +896,6 @@
             font-size: 0.78rem;
         }
 
-        /* Right: Content */
         .slide-info {
             display: flex;
             flex-direction: column;
@@ -920,7 +927,6 @@
             color: var(--text-secondary);
         }
 
-        /* Stats Pill Grid */
         .slide-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1516,6 +1522,7 @@
             box-shadow: 0 12px 30px var(--accent-glow);
         }
 
+        /* =========== FOOTER =========== */
         .footer-wave {
             position: relative;
             height: 80px;
@@ -2856,16 +2863,17 @@
         }
         window.addEventListener('resize', onResize);
 
-        initEarth();
+       initEarth();
 
-        window.addEventListener('pagehide', function() {
-            cancelAnimationFrame(animFrameId);
-            if (renderer) {
-                renderer.dispose();
-                renderer.forceContextLoss();
-            }
+        window.addEventListener("pagehide", function () {
+          cancelAnimationFrame(animFrameId);
         });
 
+        window.addEventListener("pageshow", function (e) {
+          if (e.persisted && renderer) {
+            animateEarth();
+          }
+        });
     })();
     </script>
 </body>
