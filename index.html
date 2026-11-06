@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232d6a4f'%3E%3Cpath d='M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z'/%3E%3C/svg%3E">
 
     <style>
         :root {
@@ -414,6 +415,7 @@
             line-height: 1.25;
         }
 
+        /* Mobile Dropdown styles */
         .mobile-dropdown-wrap {
             width: 100%;
             display: flex;
@@ -634,6 +636,8 @@
             .hero-globe-spacer { display: none; }
         }
 
+        /* =========== BIDIRECTIONAL SCROLL REVEAL ANIMATIONS =========== */
+        /* Smooth animations that trigger when scrolling DOWN and UP */
         .reveal-item {
             opacity: 0;
             transform: translateY(45px) scale(0.97);
@@ -644,6 +648,7 @@
             opacity: 1;
             transform: translateY(0) scale(1);
         }
+        /* When scrolling UP into view, animate with a subtle downward glide */
         .reveal-item.scroll-up-enter {
             animation: scrollUpEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -658,6 +663,7 @@
             }
         }
 
+        /* Lateral reveals */
         .reveal-left {
             opacity: 0;
             transform: translateX(-50px);
@@ -677,11 +683,13 @@
             transform: translateX(0);
         }
 
+        /* Stagger delays */
         .delay-1 { transition-delay: 0.1s; }
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
         .delay-4 { transition-delay: 0.4s; }
 
+        /* =========== GLASSY CAROUSEL SECTION =========== */
         .carousel-section {
             position: relative;
             padding: 6rem clamp(1rem, 4vw, 3rem) 7rem;
@@ -896,6 +904,7 @@
             font-size: 0.78rem;
         }
 
+        /* Right: Content */
         .slide-info {
             display: flex;
             flex-direction: column;
@@ -927,6 +936,7 @@
             color: var(--text-secondary);
         }
 
+        /* Stats Pill Grid */
         .slide-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1653,41 +1663,41 @@
         <ul class="nav-links">
             <li><a href="index.html"><i class="fa-solid fa-house"></i> Beranda</a></li>
             <li class="nav-dropdown active">
-                <a href="index.html" class="nav-dropdown-trigger active">
+                <a href="program.html" class="nav-dropdown-trigger active">
                     <i class="fa-solid fa-cubes"></i>
                     <span>Program</span>
                     <i class="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
                 </a>
                 <div class="nav-dropdown-menu">
-                    <a href="index.html" class="nav-dropdown-item">
+                    <a href="program.html" class="nav-dropdown-item">
                         <div class="dropdown-item-icon"><i class="fa-solid fa-earth-asia"></i></div>
                         <div class="dropdown-item-info">
                             <span class="dropdown-item-title">3D Globe &amp; Ringkasan</span>
                             <span class="dropdown-item-desc">Eksplorasi bumi 3D interaktif Kalimantan</span>
                         </div>
                     </a>
-                    <a href="index.html#carouselSection" class="nav-dropdown-item">
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
                         <div class="dropdown-item-icon"><i class="fa-solid fa-seedling"></i></div>
                         <div class="dropdown-item-info">
                             <span class="dropdown-item-title">Reboisasi Hutan Endemik</span>
                             <span class="dropdown-item-desc">Pemulihan habitat satwa endemik Borneo</span>
                         </div>
                     </a>
-                    <a href="index.html#carouselSection" class="nav-dropdown-item">
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
                         <div class="dropdown-item-icon"><i class="fa-solid fa-camera"></i></div>
                         <div class="dropdown-item-info">
                             <span class="dropdown-item-title">Camera Trap Monitoring</span>
                             <span class="dropdown-item-desc">Sensor gerak inframerah 24/7 non-invasif</span>
                         </div>
                     </a>
-                    <a href="index.html#carouselSection" class="nav-dropdown-item">
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
                         <div class="dropdown-item-icon"><i class="fa-solid fa-water"></i></div>
                         <div class="dropdown-item-info">
                             <span class="dropdown-item-title">Restorasi Lahan Gambut</span>
                             <span class="dropdown-item-desc">Canal blocking &amp; rewetting anti karhutla</span>
                         </div>
                     </a>
-                    <a href="index.html#dampakSection" class="nav-dropdown-item">
+                    <a href="program.html#dampakSection" class="nav-dropdown-item">
                         <div class="dropdown-item-icon"><i class="fa-solid fa-chart-line"></i></div>
                         <div class="dropdown-item-info">
                             <span class="dropdown-item-title">Dampak Lingkungan</span>
@@ -1721,11 +1731,11 @@
                 <i class="fa-solid fa-chevron-down mobile-dropdown-arrow"></i>
             </div>
             <div class="mobile-dropdown-sub">
-                <a href="index.html"><i class="fa-solid fa-earth-asia"></i> 3D Globe &amp; Ringkasan</a>
-                <a href="index.html#carouselSection"><i class="fa-solid fa-seedling"></i> Reboisasi Hutan</a>
-                <a href="index.html#carouselSection"><i class="fa-solid fa-camera"></i> Camera Trap</a>
-                <a href="index.html#carouselSection"><i class="fa-solid fa-water"></i> Restorasi Gambut</a>
-                <a href="index.html#dampakSection"><i class="fa-solid fa-chart-line"></i> Dampak Lingkungan</a>
+                <a href="program.html"><i class="fa-solid fa-earth-asia"></i> 3D Globe &amp; Ringkasan</a>
+                <a href="program.html#carouselSection"><i class="fa-solid fa-seedling"></i> Reboisasi Hutan</a>
+                <a href="program.html#carouselSection"><i class="fa-solid fa-camera"></i> Camera Trap</a>
+                <a href="program.html#carouselSection"><i class="fa-solid fa-water"></i> Restorasi Gambut</a>
+                <a href="program.html#dampakSection"><i class="fa-solid fa-chart-line"></i> Dampak Lingkungan</a>
             </div>
         </div>
         <a href="index.html#donasi"><i class="fa-solid fa-hand-holding-heart"></i> Donasi</a>
@@ -1970,6 +1980,7 @@
         </div>
 
         <div class="dampak-columns">
+            <!-- Left Column: Reboisasi -->
             <div class="dampak-col reveal-left">
                 <h3 class="dampak-col-title">
                     <i class="fa-solid fa-tree"></i>
@@ -2046,6 +2057,7 @@
                 </div>
             </div>
 
+            <!-- Right Column: Camera Trap -->
             <div class="dampak-col reveal-right">
                 <h3 class="dampak-col-title">
                     <i class="fa-solid fa-camera-retro"></i>
@@ -2317,6 +2329,24 @@
             mobileDropdownToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 mobileDropdownWrap.classList.toggle('open');
+            });
+        }
+
+        const desktopDropdownTrigger = document.querySelector('.nav-dropdown-trigger');
+        const navDropdown = document.querySelector('.nav-dropdown');
+        if (desktopDropdownTrigger && navDropdown) {
+            desktopDropdownTrigger.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) {
+                    if (!navDropdown.classList.contains('open')) {
+                        e.preventDefault();
+                        navDropdown.classList.add('open');
+                    }
+                }
+            });
+            document.addEventListener('click', function(e) {
+                if (!navDropdown.contains(e.target)) {
+                    navDropdown.classList.remove('open');
+                }
             });
         }
 
@@ -2604,7 +2634,7 @@
             gambut: {
                 category: 'Restorasi Lahan Gambut',
                 title: 'Program Pembasahan (Rewetting) Gambut',
-                image: 'https://images.unsplash.com/photo-1511497584788-87676104235f?w=900&h=600&fit=crop',
+                image: 'https://lh3.googleusercontent.com/d/1jSxJLaf-xhUCvzzrh112web_EJi-4Jqv',
                 desc: 'Penyekatan saluran pembuangan air gambut menggunakan sekat kanal komposit kayu dan tanah untuk menaikkan muka air tanah hingga batas aman minimum 40 cm di bawah permukaan tanah.',
                 specs: [
                     { label: 'Kanal Tersekat', value: '50 Sekat Permanen' },
