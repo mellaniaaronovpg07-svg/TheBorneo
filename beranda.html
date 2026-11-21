@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenEarth - Selamatkan Hutan Kalimantan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-theme="light"] {
+  --bg: #f8f9f0;
+  --bg-alt: #eef0e5;
+  --text: #1a1a2e;
+  --text-muted: #555;
+  --text-inverse: #fff;
+  --accent: #2d6a4f;
+  --accent-light: #40916c;
+  --accent-glow: rgba(45,106,79,0.25);
+  --card-bg: rgba(255,255,255,0.6);
+  --card-border: rgba(255,255,255,0.3);
+  --card-shadow: rgba(0,0,0,0.06);
+  --glass-bg: rgba(255,255,255,0.65);
+  --glass-border: rgba(255,255,255,0.4);
+  --nav-bg: rgba(255,255,255,0.72);
+  --input-bg: rgba(255,255,255,0.8);
+  --overlay: rgba(0,0,0,0.4);
+  --hero-bg-url: url('https://lh3.googleusercontent.com/d/1gdrZIxd9lztKmFcf5LwvH3a8rHl5NISL');
+  --scrollbar-track: #e0e0d8;
+  --scrollbar-thumb: #2d6a4f;
+  --footer-bg: #1a2e1a;
+  --game-display: block;
+}
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --bg-alt: #111;
+  --text: #e0e0e0;
+  --text-muted: #888;
+  --text-inverse: #fff;
+  --accent: #52b788;
+  --accent-light: #74c69d;
+  --accent-glow: rgba(82,183,136,0.25);
+  --card-bg: rgba(30,30,30,0.6);
+  --card-border: rgba(255,255,255,0.08);
+  --card-shadow: rgba(0,0,0,0.3);
+  --glass-bg: rgba(30,30,30,0.65);
+  --glass-border: rgba(255,255,255,0.08);
+  --nav-bg: rgba(15,15,15,0.78);
+  --input-bg: rgba(30,30,30,0.8);
+  --overlay: rgba(0,0,0,0.6);
+  --hero-bg-url: url('https://lh3.googleusercontent.com/d/1fQhyeHsgf1cXcSbg1bAFnsnqByJIrWAT');
+  --scrollbar-track: #1a1a1a;
+  --scrollbar-thumb: #52b788;
+  --footer-bg: #050505;
+  --game-display: none;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  transition: background var(--transition), color var(--transition);
+  overflow: hidden;
+  line-height: 1.6;
+}
+body.loaded { overflow-y: auto; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
+input, textarea { font-family: var(--font); }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-light); }
+
+::selection { background: var(--accent); color: #fff; }
+
+.loading-screen {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0a1f0a 0%, #1a3a1a 40%, #0d2b0d 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.loading-screen.fade-out {
+  opacity: 0; transform: scale(1.05);
+  pointer-events: none;
+}
+.loading-icon {
+  position: relative; width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.loading-icon .ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 3px solid transparent; border-top-color: #52b788;
+  animation: loadSpin 1.2s linear infinite;
+}
+.loading-icon .ring:nth-child(2) {
+  inset: 8px; border-top-color: #74c69d;
+  animation-duration: 0.9s; animation-direction: reverse;
+}
+.loading-icon .ring:nth-child(3) {
+  inset: 16px; border-top-color: #95d5b2;
+  animation-duration: 1.5s;
+}
+.loading-icon i {
+  font-size: 2.2rem; color: #52b788;
+  animation: loadPulse 1.5s ease-in-out infinite;
+}
+@keyframes loadSpin { to { transform: rotate(360deg); } }
+@keyframes loadPulse { 0%,100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.15); opacity: 1; } }
+.loading-text {
+  font-size: 1.5rem; font-weight: 700; color: #fff;
+  letter-spacing: 0.15em; margin-bottom: 32px;
+}
+.loading-text span { color: #52b788; }
+.progress-bar-container {
+  width: 220px; height: 4px; border-radius: 4px;
+  background: rgba(255,255,255,0.1); overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; width: 0%; border-radius: 4px;
+  background: linear-gradient(90deg, #52b788, #74c69d);
+  transition: width 0.15s linear;
+}
+
+.welcome-overlay {
+  position: fixed; inset: 0; z-index: 9998;
+  background: rgba(0,0,0,0.85);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.welcome-overlay.active { opacity: 1; pointer-events: all; }
+.welcome-overlay.fade-out { opacity: 0; pointer-events: none; }
+.welcome-content {
+  text-align: center; transform: scale(0.85);
+  transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.6s ease;
+  opacity: 0;
+}
+.welcome-overlay.active .welcome-content {
+  transform: scale(1); opacity: 1;
+}
+.welcome-content i {
+  font-size: 3rem; color: #52b788; margin-bottom: 16px;
+  display: block;
+}
+.welcome-content h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem); color: #fff;
+  font-weight: 700; margin-bottom: 8px;
+}
+.welcome-content p {
+  color: rgba(255,255,255,0.6); font-size: 1rem;
+  font-weight: 300; letter-spacing: 0.1em;
+}
+
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 0 clamp(16px, 4vw, 60px); height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  transition: background var(--transition), box-shadow 0.3s ease;
+}
+.navbar.scrolled {
+  background: var(--nav-bg);
+  box-shadow: 0 4px 30px var(--card-shadow);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.3rem; font-weight: 800; color: var(--accent);
+}
+.nav-brand i { font-size: 1.4rem; }
+.nav-links {
+  display: flex; align-items: center; gap: 32px;
+}
+.nav-links a {
+  font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
+  position: relative; transition: color 0.3s ease; padding: 4px 0;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 0;
+  width: 0; height: 2px; background: var(--accent);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--accent);
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.theme-toggle {
+  width: 56px; height: 28px; border-radius: 50px;
+  background: var(--bg-alt); border: 1px solid var(--card-border);
+  position: relative; cursor: pointer; transition: background var(--transition);
+  display: flex; align-items: center; padding: 0 4px;
+}
+.theme-toggle .toggle-ball {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--accent); position: absolute; left: 3px;
+  transition: transform 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+  display: flex; align-items: center; justify-content: center;
+}
+[data-theme="dark"] .theme-toggle .toggle-ball { transform: translateX(27px); }
+.theme-toggle .toggle-ball i { font-size: 0.6rem; color: #fff; }
+.theme-toggle .fa-sun { display: inline; }
+.theme-toggle .fa-moon { display: none; }
+[data-theme="dark"] .theme-toggle .fa-sun { display: none; }
+[data-theme="dark"] .theme-toggle .fa-moon { display: inline; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; padding: 4px;
+}
+.hamburger span {
+  width: 24px; height: 2.5px; background: var(--text);
+  border-radius: 4px; transition: var(--transition);
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+/* Mobile Menu */
+.mobile-menu {
+  display: none; position: fixed; top: 70px; left: 0; right: 0;
+  background: var(--glass-bg); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 24px; flex-direction: column; gap: 16px;
+  transform: translateY(-10px); opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.mobile-menu.active { display: flex; transform: translateY(0); opacity: 1; }
+.mobile-menu a {
+  font-size: 1rem; font-weight: 500; color: var(--text);
+  padding: 10px 0; border-bottom: 1px solid var(--card-border);
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--accent); }
+
+@media(max-width:768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+
+.hero {
+  position: relative; min-height: 100vh; width: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: var(--hero-bg-url);
+  background-size: cover; background-position: center;
+  transition: background-image 0.8s ease;
+}
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(0,0,0,0.35) 0%,
+    rgba(0,0,0,0.15) 40%,
+    rgba(0,0,0,0.25) 70%,
+    rgba(0,0,0,0.65) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; text-align: center;
+  padding: 0 20px;
+}
+.hero-title {
+  font-size: clamp(4rem, 15vw, 12rem); font-weight: 800;
+  color: #fff; letter-spacing: 0.15em; text-transform: uppercase;
+  line-height: 1; margin-bottom: 12px;
+}
+.hero-title .letter {
+  display: inline-block; opacity: 0;
+  transform: translateY(60px) scale(0.8);
+  animation: letterIn 0.6s forwards;
+}
+@keyframes letterIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.hero-subtitle {
+  font-size: clamp(0.85rem, 2vw, 1.3rem); font-weight: 300;
+  color: rgba(255,255,255,0.7); letter-spacing: 0.5em;
+  text-transform: uppercase;
+}
+.hero-data-btn {
+  position: absolute; top: 100px; right: clamp(20px, 5vw, 60px);
+  z-index: 3;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 22px; border-radius: 50px;
+  color: #fff; font-size: 0.85rem; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; transition: all 0.3s ease;
+  animation: floatBtn 4s ease-in-out infinite;
+}
+.hero-data-btn:hover {
+  background: rgba(255,255,255,0.22);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(82,183,136,0.3);
+}
+@keyframes floatBtn {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-bottom-bar {
+  position: absolute; bottom: 50px; left: 0; right: 0; z-index: 3;
+  margin: 0 clamp(16px, 4vw, 60px);
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px; padding: 20px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+}
+.hero-bar-text h3 {
+  color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 4px;
+}
+.hero-bar-text p {
+  color: rgba(255,255,255,0.6); font-size: 0.82rem;
+  font-weight: 400; max-width: 480px; line-height: 1.5;
+}
+.hero-bar-btn {
+  background: var(--accent); color: #fff;
+  padding: 12px 24px; border-radius: 50px;
+  font-size: 0.85rem; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap; cursor: pointer;
+  transition: all 0.3s ease; border: none;
+}
+.hero-bar-btn:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+.scroll-indicator {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.scroll-indicator i {
+  font-size: 1rem; animation: scrollBounce 2s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+  0%,100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.ember-container {
+  position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none;
+}
+.ember {
+  position: absolute; width: 6px; height: 6px; border-radius: 50%;
+  background: radial-gradient(circle, #f0a500, #e74c3c);
+  opacity: 0; animation: emberFloat linear infinite;
+}
+@keyframes emberFloat {
+  0% { opacity: 0; transform: translateY(100vh) translateX(0) scale(0.5); }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(-20vh) translateX(80px) scale(0); }
+}
+
+@media(max-width:768px) {
+  .hero-bottom-bar { flex-direction: column; text-align: center; bottom: 50px; }
+  .hero-bar-text p { max-width: 100%; }
+  .hero-data-btn { top: 85px; right: 16px; font-size: 0.75rem; padding: 10px 16px; }
+}
+
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 8000;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease;
+  padding: 20px;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 24px; width: 100%; max-width: 680px;
+  padding: 36px; position: relative;
+  transform: scale(0.88) translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s ease;
+  opacity: 0; max-height: 90vh; overflow-y: auto;
+}
+.modal-overlay.active .modal-card { transform: scale(1) translateY(0); opacity: 1; }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1px solid var(--card-border);
+  color: var(--text); font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease;
+}
+.modal-close:hover { background: rgba(231,76,60,0.2); color: #e74c3c; }
+.modal-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.3rem; font-weight: 700; color: var(--text);
+  margin-bottom: 24px;
+}
+.modal-title i { color: var(--accent); font-size: 1.2rem; }
+.modal-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.modal-stat {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 16px; padding: 22px;
+  opacity: 0; transform: translateY(15px);
+  transition: all 0.4s ease;
+}
+.modal-overlay.active .modal-stat {
+  opacity: 1; transform: translateY(0);
+}
+.modal-stat .stat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 12px;
+}
+.modal-stat .stat-value {
+  font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 2px;
+}
+.modal-stat .stat-label {
+  font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 6px;
+}
+.modal-stat .stat-detail {
+  font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;
+}
+@media(max-width:500px) {
+  .modal-grid { grid-template-columns: 1fr; }
+  .modal-card { padding: 24px; }
+}
+
+.section-padding {
+  padding: 100px clamp(16px, 6vw, 80px);
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800;
+  color: var(--text); margin-bottom: 16px; text-align: center;
+}
+.section-subtitle {
+  font-size: 1rem; color: var(--text-muted); text-align: center;
+  max-width: 600px; margin: 0 auto 48px auto; line-height: 1.7;
+}
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.inovasi-section { background: var(--bg); }
+.marquee-wrapper {
+  overflow: hidden; margin-bottom: 48px;
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 12px; padding: 14px 0;
+}
+.marquee-track {
+  display: flex; gap: 48px; width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+@keyframes marqueeScroll { to { transform: translateX(-50%); } }
+.marquee-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+  white-space: nowrap;
+}
+.marquee-item i { color: var(--accent); }
+.program-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  max-width: 1000px; margin: 0 auto;
+}
+.program-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px; overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform;
+}
+.program-card:hover {
+  box-shadow: 0 20px 60px var(--card-shadow);
+}
+.program-card-img {
+  width: 100%; height: 200px; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.program-card:hover .program-card-img { transform: scale(1.05); }
+.program-card-img-wrap {
+  overflow: hidden; border-radius: 20px 20px 0 0;
+}
+.program-card-body { padding: 24px; }
+.program-card-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--accent-glow);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.program-card-icon i { font-size: 1.3rem; color: var(--accent); }
+.program-card-body h3 {
+  font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 10px;
+}
+.program-card-body p {
+  font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px;
+}
+.feature-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.feature-tag {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--accent-glow); color: var(--accent);
+  padding: 6px 12px; border-radius: 50px;
+  font-size: 0.75rem; font-weight: 600;
+}
+.feature-tag i { font-size: 0.65rem; }
+
+@media(max-width:768px) {
+  .program-grid { grid-template-columns: 1fr; }
+}
+
+.donasi-section {
+  background: var(--bg-alt);
+  transition: background var(--transition);
+}
+.donasi-card {
+  max-width: 600px; margin: 0 auto;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 24px; padding: 40px; text-align: center;
+}
+.donasi-card h2 {
+  font-size: 1.6rem; font-weight: 800; color: var(--text); margin-bottom: 8px;
+}
+.donasi-card h2 i { color: var(--accent); margin-right: 6px; }
+.donasi-tagline {
+  color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px;
+}
+.trust-badges {
+  display: flex; justify-content: center; gap: 16px;
+  margin-bottom: 28px; flex-wrap: wrap;
+}
+.trust-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.82rem; font-weight: 500; color: var(--text-muted);
+}
+.trust-badge i { color: var(--accent); }
+.progress-section { margin-bottom: 28px; }
+.progress-header {
+  display: flex; justify-content: space-between; margin-bottom: 8px;
+  font-size: 0.85rem; color: var(--text-muted);
+}
+.progress-bar-outer {
+  width: 100%; height: 10px; border-radius: 10px;
+  background: var(--bg-alt); overflow: hidden;
+}
+.progress-bar-inner {
+  height: 100%; width: 0%; border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  transition: width 1.5s ease;
+}
+.donasi-card .cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: #fff;
+  padding: 14px 32px; border-radius: 50px;
+  font-size: 0.95rem; font-weight: 700;
+  transition: all 0.3s ease; border: none;
+}
+.donasi-card .cta-btn:hover {
+  background: var(--accent-light);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--accent-glow);
+}
+
+.kontak-section { background: var(--bg); }
+.kontak-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  max-width: 1000px; margin: 0 auto;
+}
+.kontak-info { display: flex; flex-direction: column; gap: 20px; }
+.kontak-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px; padding: 20px;
+  transition: transform 0.3s ease;
+}
+.kontak-item:hover { transform: translateX(6px); }
+.kontak-item-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent-glow);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.kontak-item-icon i { color: var(--accent); font-size: 1.1rem; }
+.kontak-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.kontak-item p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+.social-links {
+  display: flex; gap: 12px; margin-top: 8px;
+}
+.social-link {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+.social-link:hover {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.kontak-form {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px; padding: 32px;
+}
+.form-group {
+  position: relative; margin-bottom: 22px;
+}
+.form-group input, .form-group textarea {
+  width: 100%; padding: 14px 16px; padding-top: 22px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px; background: var(--input-bg);
+  color: var(--text); font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+.form-group textarea { resize: vertical; min-height: 110px; }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group label {
+  position: absolute; top: 16px; left: 16px;
+  font-size: 0.85rem; color: var(--text-muted);
+  pointer-events: none; transition: all 0.3s ease;
+}
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: 5px; font-size: 0.68rem; color: var(--accent); font-weight: 600;
+}
+.form-submit-btn {
+  width: 100%; padding: 14px; border-radius: 12px;
+  background: var(--accent); color: #fff;
+  font-size: 0.95rem; font-weight: 700; border: none;
+  cursor: pointer; position: relative; overflow: hidden;
+  transition: all 0.3s ease;
+}
+.form-submit-btn:hover {
+  background: var(--accent-light);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+.form-submit-btn .ripple {
+  position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3);
+  transform: scale(0); animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+@media(max-width:768px) {
+  .kontak-grid { grid-template-columns: 1fr; }
+}
+
+.game-section {
+  background: var(--bg-alt);
+  display: var(--game-display);
+  transition: background var(--transition);
+}
+.game-notice-dark {
+  display: none; padding: 24px; text-align: center;
+  font-size: 0.95rem; color: var(--text-muted);
+}
+.game-notice-dark i { margin-right: 6px; color: var(--accent); }
+[data-theme="dark"] .game-notice-dark { display: block; }
+.game-container {
+  max-width: 700px; margin: 0 auto;
+}
+[data-theme="dark"] .game-container { display: none; }
+.game-stats {
+  display: flex; justify-content: center; gap: 28px;
+  margin-bottom: 28px; flex-wrap: wrap;
+}
+.game-stat {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.9rem; font-weight: 600; color: var(--text);
+}
+.game-stat i { color: var(--accent); }
+.game-board {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  max-width: 460px; margin: 0 auto;
+}
+.game-card-slot {
+  aspect-ratio: 1; perspective: 600px; cursor: pointer;
+}
+.game-card-inner {
+  width: 100%; height: 100%; position: relative;
+  transition: transform 0.5s ease; transform-style: preserve-3d;
+}
+.game-card-slot.flipped .game-card-inner { transform: rotateY(180deg); }
+.game-card-front, .game-card-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; border-radius: 14px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.game-card-front {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+}
+.game-card-front i { font-size: 1.8rem; color: var(--accent); }
+.game-card-back {
+  background: var(--accent); border: 1px solid var(--accent-light);
+  transform: rotateY(180deg); color: #fff; gap: 6px;
+}
+.game-card-back i { font-size: 2rem; }
+.game-card-back span { font-size: 0.55rem; font-weight: 600; text-align: center; letter-spacing: 0.05em; }
+.game-card-slot.matched .game-card-back {
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.game-win-msg {
+  display: none; text-align: center; margin-top: 24px;
+  font-size: 1.1rem; font-weight: 700; color: var(--accent);
+}
+.game-win-msg i { margin-right: 6px; }
+.game-reset-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 12px; padding: 10px 24px; border-radius: 50px;
+  background: var(--accent); color: #fff;
+  font-size: 0.85rem; font-weight: 600; border: none;
+  cursor: pointer; transition: all 0.3s ease;
+}
+.game-reset-btn:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+.footer-wave {
+  width: 100%; overflow: hidden; line-height: 0;
+  margin-bottom: -2px;
+}
+.footer-wave svg { display: block; width: 100%; height: 60px; }
+.footer-wave svg path { fill: var(--footer-bg); }
+footer {
+  background: var(--footer-bg); color: #ccc; padding: 60px clamp(16px, 6vw, 80px) 30px;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  max-width: 1000px; margin: 0 auto 40px auto;
+}
+.footer-brand h3 {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 12px;
+}
+.footer-brand h3 i { color: #52b788; }
+.footer-brand p { font-size: 0.85rem; color: #999; line-height: 1.7; margin-bottom: 16px; }
+.footer-social { display: flex; gap: 10px; }
+.footer-social a {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; font-size: 0.95rem; transition: all 0.3s ease;
+}
+.footer-social a:hover { background: #52b788; color: #fff; border-color: #52b788; }
+.footer-col h4 {
+  font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 16px;
+}
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul a {
+  font-size: 0.85rem; color: #999; transition: color 0.3s;
+}
+.footer-col ul a:hover { color: #52b788; }
+.footer-bottom {
+  text-align: center; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.8rem; color: #666;
+}
+
+@media(max-width:768px) {
+  .footer-grid { grid-template-columns: 1fr; text-align: center; }
+  .footer-social { justify-content: center; }
+}
+
+.kontak-section {
+  background: var(--bg);
+  position: relative;
+}
+.kontak-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+}
+.kontak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-glow);
+  color: var(--accent);
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+.kontak-intent-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 1.8rem;
+}
+.intent-pill-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.intent-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.intent-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.intent-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 14px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.kontak-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 36px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+}
+.kontak-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.office-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 14px 18px;
+}
+.status-pulse-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  flex-shrink: 0;
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+.status-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.status-text-wrap strong {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+.status-text-wrap span {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.kontak-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
+}
+.kontak-item.copyable {
+  cursor: pointer;
+}
+.kontak-item.copyable:hover {
+  transform: translateX(6px);
+  border-color: var(--accent);
+}
+.kontak-item-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.kontak-item-icon i {
+  color: var(--accent);
+  font-size: 1.15rem;
+}
+.kontak-item-body {
+  flex: 1;
+}
+.kontak-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.kontak-item h4 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.copy-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+.copy-badge.copied {
+  background: #22c55e;
+  color: #ffffff;
+}
+.kontak-item p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.btn-whatsapp-direct {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+  border: 1.5px solid #22c55e;
+  border-radius: 16px;
+  padding: 14px 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.btn-whatsapp-direct:hover {
+  background: #22c55e;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
+}
+.btn-whatsapp-direct i:first-child {
+  font-size: 1.8rem;
+  color: #22c55e;
+  transition: color 0.3s ease;
+}
+.btn-whatsapp-direct:hover i:first-child {
+  color: #ffffff;
+}
+.wa-text-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.wa-text-group strong {
+  font-size: 0.95rem;
+}
+.wa-text-group span {
+  font-size: 0.76rem;
+  opacity: 0.85;
+}
+.wa-arrow {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.kontak-mini-faq {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 16px;
+}
+.faq-header-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mini-faq-item {
+  border-bottom: 1px solid var(--card-border);
+  padding: 8px 0;
+  cursor: pointer;
+}
+.mini-faq-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.mini-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  gap: 8px;
+}
+.mini-faq-q i {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+.mini-faq-item.open .mini-faq-q i {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+.mini-faq-a {
+  display: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.mini-faq-item.open .mini-faq-a {
+  display: block;
+}
+
+.social-links-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+.social-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.social-links {
+  display: flex;
+  gap: 10px;
+}
+.social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+.social-link:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.kontak-form-wrap {
+  position: relative;
+}
+.kontak-form {
+  background: var(--card-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid var(--card-border);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 16px 40px var(--card-shadow);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.form-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 22px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  padding-top: 22px;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 0.92rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.form-group label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: 6px;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+.textarea-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0 4px;
+}
+.textarea-hint {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.char-counter {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.form-submit-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+.form-submit-btn:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--accent-glow);
+}
+
+.kontak-success-card {
+  display: none;
+  background: var(--card-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1.5px solid var(--accent);
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: 0 20px 48px var(--card-shadow);
+  animation: fadeInPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.success-icon-wrap {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin: 0 auto 16px;
+}
+.kontak-success-card h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.kontak-success-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+.kontak-success-card p strong {
+  color: var(--accent);
+}
+.btn-send-again {
+  padding: 12px 24px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+.btn-send-again:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--accent-glow);
+}
+
+@keyframes fadeInPop {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .kontak-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-icon">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <i class="fa-solid fa-leaf"></i>
+  </div>
+  <div class="loading-text">Green<span>Earth</span></div>
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill" id="loadProgress"></div>
+  </div>
+</div>
+
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-content">
+    <i class="fa-solid fa-earth-americas"></i>
+    <h2>Selamat Datang di GreenEarth</h2>
+    <p>Bersama Menjaga Bumi Kita</p>
+  </div>
+</div>
+
+<nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <i class="fa-solid fa-leaf"></i>
+            <span>Green Earth</span>
+        </a>
+        <ul class="nav-links">
+            <li class="nav-dropdown">
+                <a href="index.html" class="nav-dropdown-trigger">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Beranda</span>
+                    <i class="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
+                </a>
+                <div class="nav-dropdown-menu">
+                    <a href="index.html" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-house-chimney"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Beranda Utama</span>
+                            <span class="dropdown-item-desc">Misi penyelamatan &amp; aksi nyata konservasi</span>
+                        </div>
+                    </a>
+                    <a href="index.html#donasi" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Donasi Pohon</span>
+                            <span class="dropdown-item-desc">Dukung konservasi &amp; adopsi bibit rimba</span>
+                        </div>
+                    </a>
+                    <a href="index.html#kontak" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Hubungi Kami (Kontak)</span>
+                            <span class="dropdown-item-desc">Kolaborasi tim, kemitraan &amp; sukarelawan</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li class="nav-dropdown active">
+                <a href="program.html" class="nav-dropdown-trigger active">
+                    <i class="fa-solid fa-cubes"></i>
+                    <span>Program</span>
+                    <i class="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
+                </a>
+                <div class="nav-dropdown-menu">
+                    <a href="program.html" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-earth-asia"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">3D Globe &amp; Ringkasan</span>
+                            <span class="dropdown-item-desc">Eksplorasi bumi 3D interaktif Kalimantan</span>
+                        </div>
+                    </a>
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-seedling"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Reboisasi Hutan Endemik</span>
+                            <span class="dropdown-item-desc">Pemulihan habitat satwa endemik Dayak</span>
+                        </div>
+                    </a>
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-camera"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Camera Trap Monitoring</span>
+                            <span class="dropdown-item-desc">Sensor gerak inframerah 24/7 non-invasif</span>
+                        </div>
+                    </a>
+                    <a href="program.html#carouselSection" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-water"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Restorasi Lahan Gambut</span>
+                            <span class="dropdown-item-desc">Canal blocking &amp; rewetting pencegah api</span>
+                        </div>
+                    </a>
+                    <a href="program.html#dampakSection" class="nav-dropdown-item">
+                        <div class="dropdown-item-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="dropdown-item-info">
+                            <span class="dropdown-item-title">Dampak Lingkungan</span>
+                            <span class="dropdown-item-desc">Metrik keanekaragaman hayati &amp; emisi</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li>
+                <a href="alam.html" class="nav-link">
+                    <i class="fa-solid fa-mountain-sun"></i>
+                    <span>Keindahan Alam</span>
+                </a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle" aria-label="Ganti mode gelap atau terang" title="Ganti mode tema">
+                <div class="toggle-knob" id="toggleKnob">
+                    <i class="fa-solid fa-sun" id="toggleIcon"></i>
+                </div>
+            </button>
+            <button class="hamburger" id="hamburger" aria-label="Buka navigasi mobile">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Beranda</a>
+  <a href="program.html">Program</a>
+  <a href="#donasi">Donasi</a>
+  <a href="#kontak">Kontak</a>
+</div>
+
+<section class="hero" id="beranda">
+  <div class="hero-bg"></div>
+  <div class="ember-container" id="embers"></div>
+  <div class="hero-content">
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <p class="hero-subtitle">J E L A J A H &nbsp; B O R N E O</p>
+  </div>
+  <button class="hero-data-btn" id="openModalTop" aria-label="Data Statistik Hutan">
+    <i class="fa-solid fa-chart-pie"></i>
+    Data Statistik Hutan
+  </button>
+  <div class="hero-bottom-bar">
+    <div class="hero-bar-text">
+      <h3>Borneo Forest Campaign</h3>
+      <p>Menjaga ekosistem paru-paru dunia &amp; perlindungan satwa endemik Kalimantan.</p>
+    </div>
+    <button class="hero-bar-btn" id="openModalBottom">
+      Lihat Ringkasan Data
+      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </button>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+<div class="modal-overlay" id="dataModal">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="Tutup modal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="modal-title">
+      <i class="fa-solid fa-chart-bar"></i>
+      Data Statistik Hutan Kalimantan
+    </div>
+    <div class="modal-grid" id="modalGrid"></div>
+  </div>
+</div>
+
+<section class="inovasi-section section-padding" id="inovasi">
+  <h2 class="section-title reveal">Program Unggulan Kami</h2>
+  <p class="section-subtitle reveal">Inovasi teknologi dan aksi nyata untuk melindungi hutan dan satwa endemik Kalimantan.</p>
+
+  <div class="marquee-wrapper reveal">
+    <div class="marquee-track">
+      <span class="marquee-item"><i class="fa-solid fa-fire"></i> 12.5 Juta Hektar Terbakar</span>
+      <span class="marquee-item"><i class="fa-solid fa-paw"></i> 3,000+ Spesies Terancam</span>
+      <span class="marquee-item"><i class="fa-solid fa-smog"></i> 2.6 Miliar Ton Emisi Karbon</span>
+      <span class="marquee-item"><i class="fa-solid fa-tree"></i> 68% Luas Hutan Tersisa</span>
+      <span class="marquee-item"><i class="fa-solid fa-users"></i> 5 Juta+ Warga Terdampak</span>
+      <span class="marquee-item"><i class="fa-solid fa-seedling"></i> 1 Juta Pohon Ditanam</span>
+      <span class="marquee-item"><i class="fa-solid fa-fire"></i> 12.5 Juta Hektar Terbakar</span>
+      <span class="marquee-item"><i class="fa-solid fa-paw"></i> 3,000+ Spesies Terancam</span>
+      <span class="marquee-item"><i class="fa-solid fa-smog"></i> 2.6 Miliar Ton Emisi Karbon</span>
+      <span class="marquee-item"><i class="fa-solid fa-tree"></i> 68% Luas Hutan Tersisa</span>
+      <span class="marquee-item"><i class="fa-solid fa-users"></i> 5 Juta+ Warga Terdampak</span>
+      <span class="marquee-item"><i class="fa-solid fa-seedling"></i> 1 Juta Pohon Ditanam</span>
+    </div>
+  </div>
+
+  <div class="program-grid">
+    <div class="program-card reveal" id="card1">
+      <div class="program-card-img-wrap">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&h=350&fit=crop" alt="Camera Trap Monitoring" loading="lazy">
+      </div>
+      <div class="program-card-body">
+        <div class="program-card-icon">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <h3>Camera Trap Monitoring</h3>
+        <p>Sistem pemantauan satwa liar menggunakan kamera otomatis yang dipasang di titik-titik strategis hutan Kalimantan. Teknologi AI mengidentifikasi spesies dan memantau populasi secara real-time.</p>
+        <div class="feature-tags">
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> AI Detection</span>
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> Real-time</span>
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> 500+ Unit</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="program-card reveal" id="card2">
+      <div class="program-card-img-wrap">
+        <img class="program-card-img" src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&h=350&fit=crop" alt="Program Reboisasi" loading="lazy">
+      </div>
+      <div class="program-card-body">
+        <div class="program-card-icon">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <h3>Program Reboisasi</h3>
+        <p>Program penanaman kembali pohon endemik Kalimantan di area bekas kebakaran. Melibatkan masyarakat lokal dan menggunakan teknologi drone seeding untuk area yang sulit dijangkau.</p>
+        <div class="feature-tags">
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> Drone Seeding</span>
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> Komunitas</span>
+          <span class="feature-tag"><i class="fa-solid fa-check"></i> 1 Juta Pohon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="donasi-section section-padding" id="donasi">
+  <h2 class="section-title reveal"><i class="fa-solid fa-heart" style="color:var(--accent)"></i> Donasi Sekarang</h2>
+  <p class="section-subtitle reveal">Kontribusi Anda sangat berarti untuk menyelamatkan hutan dan satwa Kalimantan.</p>
+
+  <div class="donasi-card reveal">
+    <h2><i class="fa-solid fa-heart"></i> Bantu Hutan Kalimantan</h2>
+    <p class="donasi-tagline">Setiap donasi Anda membantu memulihkan ekosistem yang rusak.</p>
+
+    <div class="trust-badges">
+      <span class="trust-badge"><i class="fa-solid fa-circle-check"></i> Terverifikasi</span>
+      <span class="trust-badge"><i class="fa-solid fa-lock"></i> Aman</span>
+      <span class="trust-badge"><i class="fa-solid fa-chart-simple"></i> Transparan</span>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-header">
+        <span>Rp 1.2 Miliar terkumpul</span>
+        <span>Target: Rp 2 Miliar</span>
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" data-width="60"></div>
+      </div>
+    </div>
+
+    <a href="https://kitabisa.com" target="_blank" rel="noopener noreferrer" class="cta-btn">
+      <i class="fa-solid fa-hand-holding-heart"></i> Donasi via Kitabisa
+    </a>
+  </div>
+</section>
+
+<section class="kontak-section section-padding" id="kontak">
+  <div class="kontak-header">
+    <div class="kontak-badge">
+      <i class="fa-solid fa-headset"></i>
+      <span>Layanan &amp; Kemitraan</span>
+    </div>
+    <h2 class="section-title reveal">Hubungi Kami</h2>
+    <p class="section-subtitle reveal">Punya pertanyaan, ingin berkolaborasi, atau menjadi sukarelawan? Tim konservasi Green Earth siap mendengar dan membantu Anda.</p>
+
+    <div class="kontak-intent-pills">
+      <span class="intent-pill-label"><i class="fa-solid fa-tag"></i> Topik Pesan:</span>
+      <button type="button" class="intent-pill active" data-topic="relawan" onclick="selectContactTopic('relawan', this)">
+        <i class="fa-solid fa-hand-holding-hand"></i> Relawan Hutan
+      </button>
+      <button type="button" class="intent-pill" data-topic="kemitraan" onclick="selectContactTopic('kemitraan', this)">
+        <i class="fa-solid fa-handshake"></i> Kemitraan CSR
+      </button>
+      <button type="button" class="intent-pill" data-topic="adopsi" onclick="selectContactTopic('adopsi', this)">
+        <i class="fa-solid fa-tree"></i> Adopsi Bibit Rimba
+      </button>
+      <button type="button" class="intent-pill" data-topic="tanya" onclick="selectContactTopic('tanya', this)">
+        <i class="fa-solid fa-comments"></i> Pertanyaan Umum
+      </button>
+    </div>
+  </div>
+
+  <div class="kontak-grid">
+    <div class="kontak-info reveal">
+
+      <div class="office-status-banner" id="officeStatusBanner">
+        <div class="status-pulse-dot"></div>
+        <div class="status-text-wrap">
+          <strong id="statusTitle">Tim Green Earth Sedang Online</strong>
+          <span id="statusDesc">Senin - Jumat, 08:00 - 17:00 WIB (Waktu Kantor Pontianak)</span>
+        </div>
+      </div>
+
+      <div class="kontak-item copyable" id="copyEmailCard" onclick="copyContactEmail()" title="Klik untuk menyalin alamat email">
+        <div class="kontak-item-icon">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div class="kontak-item-body">
+          <div class="kontak-item-top">
+            <h4>Email Resmi</h4>
+            <span class="copy-badge" id="copyBadge"><i class="fa-solid fa-copy"></i> Salin</span>
+          </div>
+          <p id="contactEmailAddress">info@greenearth.id</p>
+        </div>
+      </div>
+
+      <div class="kontak-item">
+        <div class="kontak-item-icon">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <div>
+          <h4>Pusat Operasional Kalimantan</h4>
+          <p>Jl. Hijau Lestari No. 12, Pontianak, Kalimantan Barat, Indonesia</p>
+        </div>
+      </div>
+
+      <!-- WhatsApp Quick Action Button -->
+      <a href="https://wa.me/6281234567890?text=Halo%20GreenEarth!%20Saya%20ingin%20berkonsultasi%20mengenai%20program%20konservasi%20hutan%20Kalimantan." target="_blank" rel="noopener noreferrer" class="btn-whatsapp-direct" title="Buka WhatsApp langsung">
+        <i class="fa-brands fa-whatsapp"></i>
+        <div class="wa-text-group">
+          <strong>Chat Langsung WhatsApp</strong>
+          <span>Respon cepat oleh tim lapangan</span>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square wa-arrow"></i>
+      </a>
+
+      <div class="kontak-mini-faq">
+        <div class="faq-header-label">
+          <i class="fa-solid fa-circle-question"></i> Bantuan Cepat:
+        </div>
+        <div class="mini-faq-item" onclick="toggleMiniFaq(this)">
+          <div class="mini-faq-q">
+            <span>Berapa lama pesan saya akan dibalas?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="mini-faq-a">Tim sekretariat kami membalas seluruh surat &amp; pesan masuk dalam kurun waktu 1x24 jam kerja.</div>
+        </div>
+        <div class="mini-faq-item" onclick="toggleMiniFaq(this)">
+          <div class="mini-faq-q">
+            <span>Apakah perusahaan bisa mengadakan CSR tanam pohon?</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="mini-faq-a">Sangat bisa! Kami menyediakan paket penanaman pohon bermitra resmi dengan sertifikasi GPS dan pelaporan berkala.</div>
+        </div>
+      </div>
+
+      <div class="social-links-wrap">
+        <span class="social-label">Ikuti Media Sosial:</span>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-link" aria-label="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="kontak-form-wrap reveal">
+      <form class="kontak-form" id="contactFormMain" onsubmit="handleContactSubmit(event)">
+        <input type="hidden" name="_subject" id="formSubject" value="Pesan Kemitraan: Relawan Hutan GreenEarth">
+        <input type="hidden" name="selected_topic" id="formTopicInput" value="Relawan Hutan">
+
+        <div class="form-header-badge">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span id="formTopicBadge">Topik: Relawan Hutan</span>
+        </div>
+
+        <div class="form-group">
+          <input type="text" name="name" id="senderName" placeholder=" " required>
+          <label for="senderName"><i class="fa-solid fa-user"></i> Nama Lengkap</label>
+        </div>
+
+        <div class="form-group">
+          <input type="email" name="email" id="senderEmail" placeholder=" " required>
+          <label for="senderEmail"><i class="fa-solid fa-envelope"></i> Alamat Email</label>
+        </div>
+
+        <div class="form-group">
+          <textarea name="message" id="senderMessage" placeholder=" " required maxlength="500" oninput="updateCharCount(this)"></textarea>
+          <label for="senderMessage"><i class="fa-solid fa-pen"></i> Tulis Pesan Anda</label>
+          <div class="textarea-footer">
+            <span class="textarea-hint" id="textareaHint">Ceritakan minat atau pertanyaan Anda...</span>
+            <span class="char-counter" id="charCounter">0 / 500</span>
+          </div>
+        </div>
+
+        <button type="submit" class="form-submit-btn" id="submitBtn">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Kirim Pesan Sekarang</span>
+        </button>
+      </form>
+
+      <!-- Interactive Submission Success Modal Card -->
+      <div class="kontak-success-card" id="kontakSuccessCard">
+        <div class="success-icon-wrap">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 id="successNameHeader">Terima Kasih!</h3>
+        <p id="successMessageText">
+          Pesan Anda mengenai topik <strong>Relawan Hutan</strong> telah berhasil terkirim ke sekretariat Green Earth. Kami akan segera menghubungi Anda melalui email dalam 1x24 jam kerja.
+        </p>
+        <button type="button" class="btn-send-again" onclick="resetContactForm()">
+          <i class="fa-solid fa-rotate-left"></i> Kirim Pesan Lain
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="game-section section-padding" id="game">
+  <h2 class="section-title reveal"><i class="fa-solid fa-gamepad"></i> Selamatkan Satwa Kalimantan!</h2>
+  <p class="section-subtitle reveal">Cocokkan kartu untuk mengenal satwa endemik Kalimantan yang terancam punah.</p>
+
+  <div class="game-notice-dark">
+    <i class="fa-solid fa-gamepad"></i> Mainkan game seru di Light Mode!
+  </div>
+
+  <div class="game-container">
+    <div class="game-stats">
+      <div class="game-stat"><i class="fa-solid fa-crosshairs"></i> Percobaan: <span id="attempts">0</span></div>
+      <div class="game-stat"><i class="fa-solid fa-stopwatch"></i> Waktu: <span id="timer">0</span>s</div>
+      <div class="game-stat"><i class="fa-solid fa-circle-check"></i> Cocok: <span id="matchCount">0</span>/6</div>
+    </div>
+    <div class="game-board" id="gameBoard"></div>
+    <div class="game-win-msg" id="winMsg">
+      <i class="fa-solid fa-trophy"></i> Selamat! Kamu berhasil menyelamatkan semua satwa!
+      <br>
+      <button class="game-reset-btn" id="resetBtn"><i class="fa-solid fa-rotate-right"></i> Main Lagi</button>
+    </div>
+  </div>
+</section>
+
+<div class="footer-wave">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,20 C360,60 720,0 1080,40 C1260,55 1380,25 1440,30 L1440,60 L0,60 Z"></path>
+  </svg>
+</div>
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3><i class="fa-solid fa-leaf"></i> GreenEarth</h3>
+      <p>Organisasi non-profit yang berdedikasi untuk melestarikan hutan dan keanekaragaman hayati Kalimantan melalui teknologi, edukasi, dan aksi kolektif.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#beranda">Beranda</a></li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="#donasi">Donasi</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Program</h4>
+      <ul>
+        <li><a href="#">Camera Trap</a></li>
+        <li><a href="#">Reboisasi</a></li>
+        <li><a href="#">Edukasi</a></li>
+        <li><a href="#">Riset</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2024 GreenEarth. Semua hak dilindungi. Dibuat dengan <i class="fa-solid fa-heart" style="color:#52b788"></i> untuk Bumi.
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script>
+const crisisData = [
+  { icon: "fa-fire", value: "12.5 Juta", label: "Hektar Terbakar", detail: "Luas hutan yang hilang akibat kebakaran sejak 2015", color: "#e74c3c" },
+  { icon: "fa-paw", value: "3,000+", label: "Spesies Terancam", detail: "Orangutan, Bekantan, dan satwa endemik kehilangan habitat", color: "#e67e22" },
+  { icon: "fa-smog", value: "2.6 Miliar Ton", label: "Emisi Karbon", detail: "Kontribusi kebakaran hutan terhadap perubahan iklim", color: "#95a5a6" },
+  { icon: "fa-users", value: "5 Juta+", label: "Warga Terdampak", detail: "Masyarakat yang terkena dampak kabut asap", color: "#3498db" }
+];
+
+(function() {
+  const progressFill = document.getElementById('loadProgress');
+  const loadingScreen = document.getElementById('loadingScreen');
+  const welcomeOverlay = document.getElementById('welcomeOverlay');
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 8 + 2;
+    if (progress > 100) progress = 100;
+    progressFill.style.width = progress + '%';
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loadingScreen.classList.add('fade-out');
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+          showWelcome();
+        }, 600);
+      }, 400);
+    }
+  }, 80);
+
+  function showWelcome() {
+    welcomeOverlay.classList.add('active');
+    setTimeout(() => {
+      welcomeOverlay.classList.add('fade-out');
+      setTimeout(() => {
+        welcomeOverlay.style.display = 'none';
+        document.body.classList.add('loaded');
+        initPage();
+      }, 500);
+    }, 1500);
+  }
+})();
+
+function initPage() {
+  initHeroLetters();
+  initEmbers();
+  initScrollAnimations();
+  initProgressBars();
+  initGame();
+}
+
+const themeToggle = document.getElementById('themeToggle');
+const savedTheme = localStorage.getItem('greenearth-theme');
+if (savedTheme) {
+  document.documentElement.setAttribute('data-theme', savedTheme);
+}
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('greenearth-theme', next);
+});
+
+const navbar = document.getElementById('navbar');
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+});
+
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+  });
+});
+
+function initHeroLetters() {
+  const titleEl = document.getElementById('heroTitle');
+  const text = 'KALIMANTAN';
+  titleEl.innerHTML = '';
+  text.split('').forEach((ch, i) => {
+    const span = document.createElement('span');
+    span.classList.add('letter');
+    span.textContent = ch;
+    span.style.animationDelay = (i * 0.08) + 's';
+    titleEl.appendChild(span);
+  });
+}
+
+function initEmbers() {
+  const container = document.getElementById('embers');
+  for (let i = 0; i < 20; i++) {
+    const ember = document.createElement('div');
+    ember.classList.add('ember');
+    ember.style.left = Math.random() * 100 + '%';
+    ember.style.width = (Math.random() * 4 + 3) + 'px';
+    ember.style.height = ember.style.width;
+    ember.style.animationDuration = (Math.random() * 6 + 6) + 's';
+    ember.style.animationDelay = (Math.random() * 8) + 's';
+    container.appendChild(ember);
+  }
+}
+
+const dataModal = document.getElementById('dataModal');
+const modalGrid = document.getElementById('modalGrid');
+const modalClose = document.getElementById('modalClose');
+const openModalTop = document.getElementById('openModalTop');
+const openModalBottom = document.getElementById('openModalBottom');
+
+function buildModalContent() {
+  modalGrid.innerHTML = '';
+  crisisData.forEach((item, i) => {
+    const card = document.createElement('div');
+    card.classList.add('modal-stat');
+    card.style.transitionDelay = (i * 0.1) + 's';
+    card.innerHTML = `
+      <div class="stat-icon" style="background:${item.color}22;">
+        <i class="fa-solid ${item.icon}" style="color:${item.color}"></i>
+      </div>
+      <div class="stat-value">${item.value}</div>
+      <div class="stat-label">${item.label}</div>
+      <div class="stat-detail">${item.detail}</div>
+    `;
+    modalGrid.appendChild(card);
+  });
+}
+buildModalContent();
+
+function openModal() {
+  dataModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  dataModal.classList.remove('active');
+  document.body.style.overflow = '';
+  if (document.body.classList.contains('loaded')) {
+    document.body.style.overflowY = 'auto';
+  }
+}
+
+openModalTop.addEventListener('click', openModal);
+openModalBottom.addEventListener('click', openModal);
+modalClose.addEventListener('click', closeModal);
+dataModal.addEventListener('click', (e) => {
+  if (e.target === dataModal) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function initProgressBars() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bar = entry.target;
+        const width = bar.getAttribute('data-width');
+        bar.style.width = width + '%';
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.progress-bar-inner').forEach(bar => observer.observe(bar));
+}
+
+document.querySelectorAll('.program-card').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = (y - centerY) / 20;
+    const rotateY = (centerX - x) / 20;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+  });
+});
+
+document.querySelectorAll('.form-submit-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+const animals = [
+  { name: "Orangutan", icon: "fa-solid fa-otter" },
+  { name: "Gajah Borneo", icon: "fa-solid fa-hippo" },
+  { name: "Bekantan", icon: "fa-solid fa-kiwi-bird" },
+  { name: "Macan Dahan", icon: "fa-solid fa-cat" },
+  { name: "Beruang Madu", icon: "fa-solid fa-paw" },
+  { name: "Rangkong", icon: "fa-solid fa-crow" }
+];
+
+let gameState = {
+  cards: [],
+  flippedCards: [],
+  matchedPairs: 0,
+  attempts: 0,
+  timerInterval: null,
+  timerSeconds: 0,
+  locked: false,
+  started: false
+};
+
+function initGame() {
+  resetGame();
+}
+
+function resetGame() {
+  const board = document.getElementById('gameBoard');
+  const winMsg = document.getElementById('winMsg');
+  if (!board) return;
+  board.innerHTML = '';
+  winMsg.style.display = 'none';
+
+  clearInterval(gameState.timerInterval);
+  gameState = {
+    cards: [],
+    flippedCards: [],
+    matchedPairs: 0,
+    attempts: 0,
+    timerInterval: null,
+    timerSeconds: 0,
+    locked: false,
+    started: false
+  };
+
+  document.getElementById('attempts').textContent = '0';
+  document.getElementById('timer').textContent = '0';
+  document.getElementById('matchCount').textContent = '0';
+
+  const pairs = [...animals, ...animals];
+  for (let i = pairs.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+  }
+
+  pairs.forEach((animal, idx) => {
+    const slot = document.createElement('div');
+    slot.classList.add('game-card-slot');
+    slot.dataset.name = animal.name;
+    slot.dataset.index = idx;
+    slot.innerHTML = `
+      <div class="game-card-inner">
+        <div class="game-card-front">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="game-card-back">
+          <i class="${animal.icon}"></i>
+          <span>${animal.name}</span>
+        </div>
+      </div>
+    `;
+    slot.addEventListener('click', () => flipCard(slot));
+    board.appendChild(slot);
+  });
+}
+
+function flipCard(slot) {
+  if (gameState.locked) return;
+  if (slot.classList.contains('flipped')) return;
+  if (slot.classList.contains('matched')) return;
+  if (gameState.flippedCards.length >= 2) return;
+
+  if (!gameState.started) {
+    gameState.started = true;
+    gameState.timerInterval = setInterval(() => {
+      gameState.timerSeconds++;
+      document.getElementById('timer').textContent = gameState.timerSeconds;
+    }, 1000);
+  }
+
+  slot.classList.add('flipped');
+  gameState.flippedCards.push(slot);
+
+  if (gameState.flippedCards.length === 2) {
+    gameState.attempts++;
+    document.getElementById('attempts').textContent = gameState.attempts;
+    checkMatch();
+  }
+}
+
+function checkMatch() {
+  const [c1, c2] = gameState.flippedCards;
+  if (c1.dataset.name === c2.dataset.name) {
+    c1.classList.add('matched');
+    c2.classList.add('matched');
+    gameState.matchedPairs++;
+    document.getElementById('matchCount').textContent = gameState.matchedPairs;
+    gameState.flippedCards = [];
+
+    if (gameState.matchedPairs === 6) {
+      clearInterval(gameState.timerInterval);
+      document.getElementById('winMsg').style.display = 'block';
+      if (typeof confetti !== 'undefined') {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.7 },
+          colors: ['#2d6a4f', '#40916c', '#52b788', '#74c69d', '#ffd700', '#fff']
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 80,
+            spread: 60,
+            origin: { y: 0.5 },
+            colors: ['#2d6a4f', '#52b788', '#ffd700']
+          });
+        }, 500);
+      }
+    }
+  } else {
+    gameState.locked = true;
+    setTimeout(() => {
+      c1.classList.remove('flipped');
+      c2.classList.remove('flipped');
+      gameState.flippedCards = [];
+      gameState.locked = false;
+    }, 800);
+  }
+}
+
+document.getElementById('resetBtn').addEventListener('click', resetGame);
+
+
+
+const topicDetails = {
+    relawan: {
+        title: "Relawan Hutan",
+        subject: "Pendaftaran / Minat Relawan Konservasi Hutan Kalimantan",
+        hint: "Ceritakan motivasi atau keahlian Anda untuk bergabung sebagai relawan rimba..."
+    },
+    kemitraan: {
+        title: "Kemitraan CSR",
+        subject: "Proposal Kolaborasi / Kemitraan CSR Konservasi Green Earth",
+        hint: "Sebutkan nama institusi/perusahaan Anda dan bentuk kerjasama yang diinginkan..."
+    },
+    adopsi: {
+        title: "Adopsi Bibit Rimba",
+        subject: "Konsultasi Program Adopsi Bibit Rimba & Pohon Endemik",
+        hint: "Tanyakan jumlah bibit, sertifikasi GPS, atau paket pohon yang ingin Anda adopsi..."
+    },
+    tanya: {
+        title: "Pertanyaan Umum",
+        subject: "Pertanyaan Umum Seputar Program Green Earth",
+        hint: "Tuliskan pertanyaan Anda mengenai hutan Borneo atau inisiatif kami..."
+    }
+};
+
+window.selectContactTopic = function(topicKey, btn) {
+    document.querySelectorAll('.intent-pill').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const data = topicDetails[topicKey] || topicDetails.tanya;
+    const badge = document.getElementById('formTopicBadge');
+    const subj = document.getElementById('formSubject');
+    const topicInput = document.getElementById('formTopicInput');
+    const hint = document.getElementById('textareaHint');
+
+    if (badge) badge.textContent = 'Topik: ' + data.title;
+    if (subj) subj.value = data.subject;
+    if (topicInput) topicInput.value = data.title;
+    if (hint) hint.textContent = data.hint;
+};
+
+window.updateCharCount = function(textarea) {
+    const counter = document.getElementById('charCounter');
+    if (counter) {
+        counter.textContent = textarea.value.length + ' / 500';
+    }
+};
+
+window.copyContactEmail = function() {
+    const email = 'info@greenearth.id';
+    navigator.clipboard.writeText(email).then(() => {
+        const badge = document.getElementById('copyBadge');
+        if (badge) {
+            badge.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin!';
+            badge.classList.add('copied');
+            setTimeout(() => {
+                badge.innerHTML = '<i class="fa-solid fa-copy"></i> Salin';
+                badge.classList.remove('copied');
+            }, 2500);
+        }
+    }).catch(err => {
+        console.error('Copy failed:', err);
+    });
+};
+
+window.toggleMiniFaq = function(item) {
+    item.classList.toggle('open');
+};
+
+window.handleContactSubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('senderName').value;
+    const topic = document.getElementById('formTopicInput').value;
+    const form = document.getElementById('contactFormMain');
+    const successCard = document.getElementById('kontakSuccessCard');
+    const nameHeader = document.getElementById('successNameHeader');
+    const messageText = document.getElementById('successMessageText');
+
+    if (typeof confetti === 'function') {
+        confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+
+    if (form) form.style.display = 'none';
+    if (successCard) {
+        successCard.style.display = 'block';
+        if (nameHeader) nameHeader.textContent = 'Terima Kasih, ' + name + '!';
+        if (messageText) {
+            messageText.innerHTML = 'Pesan Anda mengenai topik <strong>' + topic + '</strong> telah berhasil kami terima. Tim sekretariat Green Earth akan menghubungi Anda melalui email dalam 1x24 jam kerja.';
+        }
+    }
+};
+
+window.resetContactForm = function() {
+    const form = document.getElementById('contactFormMain');
+    const successCard = document.getElementById('kontakSuccessCard');
+    if (form) {
+        form.reset();
+        form.style.display = 'block';
+        updateCharCount(document.getElementById('senderMessage'));
+    }
+    if (successCard) {
+        successCard.style.display = 'none';
+    }
+};
+
+// Check office status based on Western Indonesia Time (WIB / UTC+7)
+(function checkOfficeHours() {
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const wib = new Date(utc + (3600000 * 7));
+    const day = wib.getDay(); // 0 is Sunday, 6 is Saturday
+    const hour = wib.getHours();
+
+    const titleEl = document.getElementById('statusTitle');
+    const descEl = document.getElementById('statusDesc');
+
+    if (day >= 1 && day <= 5 && hour >= 8 && hour < 17) {
+        if (titleEl) titleEl.textContent = 'Tim Green Earth Sedang Online';
+        if (descEl) descEl.textContent = 'Senin - Jumat, 08:00 - 17:00 WIB (Waktu Kantor Pontianak)';
+    } else {
+        if (titleEl) titleEl.textContent = 'Kantor Sedang Istirahat / Di Luar Jam Kerja';
+        if (descEl) descEl.textContent = 'Pesan masuk tetap diproses prioritas pada hari kerja berikutnya.';
+    }
+})();
+
+</script>
+</body>
+</html>
